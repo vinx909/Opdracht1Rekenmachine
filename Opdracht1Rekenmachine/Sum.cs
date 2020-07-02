@@ -14,34 +14,42 @@ namespace Opdracht1Rekenmachine
 
         public Sum()
         {
-            opperator = opperatorsEnums.opperator.Unset;
-            internalSum = false;
+            Baseline();
         }
-        public Sum(Sum sum1)
-        {
-            opperator = opperatorsEnums.opperator.Unset;
-            this.sum1 = sum1;
-            internalSum = false;
-        }
-        public Sum(int number1)
+        private Sum(int number1)
         {
             this.number1 = number1;
+            Baseline();
+        }
+        private void Baseline()
+        {
             opperator = opperatorsEnums.opperator.Unset;
             internalSum = false;
         }
-        public Sum(Sum sum1, opperatorsEnums.opperator opperator)
+        private Sum CreateCopy()
         {
-            if (opperator != opperatorsEnums.opperator.Unset)
-            {
-                this.sum1 = sum1;
-                this.opperator = opperator;
-                internalSum = false;
-            }
-            else
-            {
-                throw new NotImplementedException();
-                //shout throw wrong call exception
-            }
+            Sum product = new Sum();
+            product.number1 = this.number1;
+            product.sum1 = this.sum1;
+            product.number2 = this.number2;
+            product.sum2 = this.sum2;
+            product.internalSum = this.internalSum;
+            product.opperator = this.opperator;
+            return product;
+        }
+        private void Reset()
+        {
+            number1 = 0;
+            sum1 = null;
+            number2 = 0;
+            sum2 = null;
+            Baseline();
+        }
+        private void ResetWithOldAsSum1()
+        {
+            Sum old = CreateCopy();
+            Reset();
+            sum1 = old;
         }
         internal string GetSumText()
         {
@@ -104,21 +112,20 @@ namespace Opdracht1Rekenmachine
             }
         }
 
-        internal Sum GiveOpperator(opperatorsEnums.opperator opperator)
+        internal void GiveOpperator(opperatorsEnums.opperator opperator)
         {
             if (this.opperator == opperatorsEnums.opperator.Unset)
             {
                 this.opperator = opperator;
-                return this;
             }
             else if (sum2 != null && internalSum == true)
             {
                 sum2.GiveOpperator(opperator);
-                return this;
             }
             else
             {
-                return new Sum(this, opperator);
+                ResetWithOldAsSum1();
+                this.opperator = opperator;
             }
         }
 
@@ -160,12 +167,12 @@ namespace Opdracht1Rekenmachine
             internalSum = true;
         }
 
-        internal bool GetInternalSum()
+        private bool GetInternalSum()
         {
             return internalSum;
         }
 
-        internal Sum StopInternalSum()
+        internal void StopInternalSum()
         {
             if (sum2 != null)
             {
@@ -175,10 +182,9 @@ namespace Opdracht1Rekenmachine
                 }
                 else
                 {
-                    return new Sum(this);
+                    ResetWithOldAsSum1();
                 }
             }
-            return this;
         }
     }
 }

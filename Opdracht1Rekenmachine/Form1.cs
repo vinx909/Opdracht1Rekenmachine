@@ -62,7 +62,7 @@ namespace Opdracht1Rekenmachine
         }
         private void AddOpperator(opperatorsEnums.opperator opperator)
         {
-            sum=sum.GiveOpperator(opperator);
+            sum.GiveOpperator(opperator);
             UpdateSumDisplay();
         }
         private void AddInternalSum()
@@ -72,7 +72,7 @@ namespace Opdracht1Rekenmachine
         }
         private void StopInternalSum()
         {
-            sum = sum.StopInternalSum();
+            sum.StopInternalSum();
         }
         private void EndSumPushToHistory()
         {
