@@ -48,9 +48,9 @@ namespace Opdracht1Rekenmachine
         private void UpdateHistoryDisplay()
         {
             String text = "";
-            foreach(Sum sum in history)
+            for(int i=history.Count-1;i>=0;i--)
             {
-                text += sum.GetSumText()+"="+sum.CalculateResult()+ System.Environment.NewLine;
+                text += history[i].GetSumText()+"="+ history[i].CalculateResult()+ System.Environment.NewLine;
             }
             labelHistory.Text = text;
         }
